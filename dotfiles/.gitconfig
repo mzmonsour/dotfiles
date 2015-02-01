@@ -1,0 +1,17 @@
+[core]
+	editor = nvim
+[color]
+	ui = true
+[user]
+	name = Matt Monsour
+	email = mzmonsour@gmail.com
+[push]
+	default = simple
+[github]
+	user = mzmonsour
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+	st = status
+	co = checkout
+	ci = commit
+	br = branch
