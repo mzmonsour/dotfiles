@@ -1,3 +1,3 @@
-# dotfiles-empty
+# dotfiles
 
-A template repository for storing and sharing your dotfiles
+An online backup for most of my dotfiles and configs
