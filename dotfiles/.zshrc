@@ -1,5 +1,5 @@
 # Autorun tmux
-if [ $TERM != "screen" ]; then
+if [ $TERM != "screen-256color" ]; then
     export TERM=xterm-256color && exec tmux
 fi
 

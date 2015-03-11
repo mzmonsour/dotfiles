@@ -4,7 +4,7 @@ if has('nvim')
 endif
 
 " Change leader, space is a redundant motion anyways
-nnoremap <space> <nop>
+noremap <space> <nop>
 let mapleader = "\<space>"
 
 set nocompatible
@@ -32,8 +32,9 @@ set list lcs=tab:\|\
 " Enable indent backspacing
 set backspace=indent,eol,start
 
-" Enable line numbering
+" Enable relative line numbering
 set number
+set relativenumber
 
 " Enable search options
 set hlsearch
@@ -41,6 +42,9 @@ set hlsearch
 " Enable cursorline for now
 " We'll see if there are any performance problems
 "set cursorline
+
+" Enable scroll offset
+set scrolloff=5
 
 " Make :q do cool things because ctrl-p and buffers are awesome =)
 set hidden
@@ -69,6 +73,10 @@ nmap <leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 " Bind search reset
 nnoremap <leader>/ :let @/=""<CR>
 
+" Bind blank line insertions
+nmap <leader>o o<Esc>k
+nmap <leader>O O<Esc>j
+
 " Enable vundle
 filetype off
 set rtp+=~/.nvim/bundle/vundle
@@ -92,12 +100,16 @@ Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
 Plugin 'bling/vim-airline'
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'rust-lang/rust.vim'
+Plugin 'tpope/vim-surround'
 
 call vundle#end()
 
 " Enable syntax highlighting, and other filetype plugins
 filetype plugin indent on
 syntax on
+
+set omnifunc=syntaxcomplete#Complete
 
 " Fix markdown plugins to recognize .md, .markdown as GitHub Markdown
 "augroup markdown
@@ -123,6 +135,11 @@ augroup END
 augroup ruby_style
     au!
     au FileType ruby setlocal ts=2 sts=2 sw=2 et
+augroup END
+
+augroup text_wrap
+    au!
+    au BufNewFile,BufRead *.txt set wrap linebreak
 augroup END
 
 " Pick a sane default for code width, this isn't the 80s
@@ -173,9 +190,9 @@ let g:indentLine_color_term = 46
 map <silent> w <Plug>CamelCaseMotion_w
 map <silent> e <Plug>CamelCaseMotion_e
 map <silent> b <Plug>CamelCaseMotion_b
-nnoremap <leader>w w
-nnoremap <leader>e e
-nnoremap <leader>b b
+noremap <leader>w w
+noremap <leader>e e
+noremap <leader>b b
 sunmap w
 sunmap e
 sunmap b
