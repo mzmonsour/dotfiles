@@ -17,9 +17,6 @@ set smartcase
 " Enable 256 color mode
 set t_Co=256
 
-" Set colorscheme
-colorscheme distinguished
-
 " Use 4 space tabs
 set expandtab
 set softtabstop=4
@@ -103,6 +100,9 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'rust-lang/rust.vim'
 Plugin 'tpope/vim-surround'
 
+" Colorscheme plugins
+Plugin 'sickill/vim-sunburst'
+
 call vundle#end()
 
 " Enable syntax highlighting, and other filetype plugins
@@ -110,6 +110,23 @@ filetype plugin indent on
 syntax on
 
 set omnifunc=syntaxcomplete#Complete
+
+" Set colorscheme
+
+colorscheme distinguished
+
+function SetColorscheme()
+    "if has('gui_running')
+    "    colorscheme Sunburst
+    "else
+    "    colorscheme distinguished
+    "endif
+endfunction
+
+augroup col_scheme
+    au!
+    au VimEnter * call SetColorscheme()
+augroup END
 
 " Fix markdown plugins to recognize .md, .markdown as GitHub Markdown
 "augroup markdown
@@ -137,9 +154,10 @@ augroup ruby_style
     au FileType ruby setlocal ts=2 sts=2 sw=2 et
 augroup END
 
+" Enable text file spell check
 augroup text_wrap
     au!
-    au BufNewFile,BufRead *.txt set wrap linebreak
+    au FileType text setlocal spell cc=81,101
 augroup END
 
 " Pick a sane default for code width, this isn't the 80s
@@ -185,14 +203,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 let g:indentLine_char = '┊'
 let g:indentLine_color_term = 46
 
-" CamelCaseMotion replaces w,e,b bindings
-" Set standard w,e,b to <leader>w,e,b
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> e <Plug>CamelCaseMotion_e
-map <silent> b <Plug>CamelCaseMotion_b
-noremap <leader>w w
-noremap <leader>e e
-noremap <leader>b b
-sunmap w
-sunmap e
-sunmap b
+" Set CamelCaseMotion bindings
+map <leader>w <Plug>CamelCaseMotion_w
+map <leader>e <Plug>CamelCaseMotion_e
+map <leader>b <Plug>CamelCaseMotion_b

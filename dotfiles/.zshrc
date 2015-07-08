@@ -1,7 +1,7 @@
 # Autorun tmux
-if [ $TERM != "screen-256color" ]; then
-    export TERM=xterm-256color && exec tmux
-fi
+#if [ $TERM != "screen-256color" ]; then
+#    export TERM=xterm-256color && exec tmux
+#fi
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -19,10 +19,9 @@ compinit
 source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # Environment Vars
-path+=~"/.gem/ruby/2.0.0/bin"
-path+=~"/.gem/ruby/2.1.0/bin"
 path+=~"/bin/"
-export EDITOR='nvim -p'
+path+="$(ruby -e 'print Gem.user_dir')/bin"
+export EDITOR='/usr/bin/nvim'
 export vgaswitch=/sys/kernel/debug/vgaswitcheroo/switch
 
 # Read better colors for ls
@@ -44,4 +43,4 @@ alias e="$EDITOR"
 alias please="sudo `cat \`readlink -f $HISTFILE\` | tail -n1`"
 
 # Less useful aliases
-vim() { echo 'Use neovim dummy'; read }
+#vim() { echo 'Use neovim dummy'; read }
