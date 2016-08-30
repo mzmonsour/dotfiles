@@ -1,7 +1,7 @@
-# Autorun tmux
-#if [ $TERM != "screen-256color" ]; then
-#    export TERM=xterm-256color && exec tmux
-#fi
+# Autorun tmux, except on login shells
+if [[ $TERM != "screen-256color" && ! -o login ]]; then
+    export TERM=xterm-256color && exec tmux
+fi
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -21,11 +21,14 @@ source /usr/share/doc/pkgfile/command-not-found.zsh
 # Environment Vars
 path+=~"/bin/"
 path+="$(ruby -e 'print Gem.user_dir')/bin"
+path+=~"/.cargo/bin/"
 export EDITOR='/usr/bin/nvim'
 export vgaswitch=/sys/kernel/debug/vgaswitcheroo/switch
+export MIPSGCC_DIR=~/code/mips-gcc/
 
 # Read better colors for ls
-#eval `dircolors ~/.dir_colors`
+eval `dircolors ~/.dir_colors`
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # Make make faster
 export MAKEFLAGS="-j4"
@@ -41,6 +44,7 @@ source ~/.zshfn
 alias ls='ls --color=auto --group-directories-first'
 alias e="$EDITOR"
 alias please="sudo `cat \`readlink -f $HISTFILE\` | tail -n1`"
+alias pacaur="sudo -u pacaur MAKEFLAGS=\"$MAKEFLAGS\" pacaur"
 
 # Less useful aliases
-#vim() { echo 'Use neovim dummy'; read }
+vim() { echo 'Use neovim dummy'; read }
