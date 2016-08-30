@@ -6,6 +6,7 @@ endif
 " Change leader, space is a redundant motion anyways
 noremap <space> <nop>
 let mapleader = "\<space>"
+let maplocalleader = "\<space>"
 
 set nocompatible
 
@@ -76,14 +77,12 @@ nmap <leader>O O<Esc>j
 
 " Enable vundle
 filetype off
-set rtp+=~/.nvim/bundle/vundle
-call vundle#begin('~/.nvim/bundle')
-Plugin 'gmarik/vundle'
+set rtp+=~/.config/nvim/bundle/Vundle.vim
+call vundle#begin('~/.config/nvim/bundle')
+Plugin 'VundleVim/Vundle.vim'
 
 " Load plugins here
 
-Plugin 'bruno-/vim-man'
-Plugin 'benekastah/neomake'
 Plugin 'kien/ctrlp.vim'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'rking/ag.vim'
@@ -99,6 +98,13 @@ Plugin 'bling/vim-airline'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'rust-lang/rust.vim'
 Plugin 'tpope/vim-surround'
+Plugin 'lervag/vimtex'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'rdnetto/YCM-Generator'
+Plugin 'racer-rust/vim-racer'
+Plugin 'tpope/vim-eunuch'
+Plugin 'neomake/neomake'
+Plugin 'critiqjo/lldb.nvim'
 
 " Colorscheme plugins
 Plugin 'sickill/vim-sunburst'
@@ -154,10 +160,29 @@ augroup ruby_style
     au FileType ruby setlocal ts=2 sts=2 sw=2 et
 augroup END
 
-" Enable text file spell check
+" Enable text file settings
 augroup text_wrap
     au!
-    au FileType text setlocal spell cc=81,101
+    au FileType text setlocal tw=80 cc=81,101
+augroup END
+
+augroup help_nospell
+    au!
+    au FileType help setlocal nospell
+augroup END
+
+" Stop texsuite, or whatever it is, from breaking tmux-navigator bindings
+function RebindNavigator()
+    nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+    nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+    nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+    nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+    nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+endfunction
+
+augroup fix_texsuite
+    au!
+    au VimEnter * call RebindNavigator()
 augroup END
 
 " Pick a sane default for code width, this isn't the 80s
@@ -193,6 +218,8 @@ let g:gist_open_browser_after_post = 1
 " Vim airline settings
 set laststatus=2 " Always show airline bar
 let g:airline_powerline_fonts=1 " Make me look nice (in gvim)
+let g:airline#extensions#tabline#enabled = 1 " Make the tabline look nice
+let g:airline#extensions#tabline#show_splits = 0 " Make the tabline less cluttered
 
 " NERDTree settings
 noremap <C-n> :NERDTreeToggle<CR>
@@ -207,3 +234,36 @@ let g:indentLine_color_term = 46
 map <leader>w <Plug>CamelCaseMotion_w
 map <leader>e <Plug>CamelCaseMotion_e
 map <leader>b <Plug>CamelCaseMotion_b
+
+" Fix tmux navigator in neovim, at least until <c-h> no longer sends <BS>
+if has('nvim')
+    nnoremap <silent> <BS> :TmuxNavigateLeft<CR>
+endif
+
+" Set eclim settings
+set rtp+=~/.config/nvim/eclim/
+let g:EclimCompletionMethod = 'omnifunc'
+
+" Give YCM access to tags
+let g:ycm_collect_identifiers_from_tags_files = 1
+
+" Set bindings for lldb.nvim
+
+" Toggle breakpoint
+nmap <leader>lb <Plug>LLBreakSwitch
+
+" Print hovering word, or selection
+nnoremap <leader>lp :LL print <C-R>=expand('<cword>')<CR><CR>
+vnoremap <leader>lp :LL print <C-R>=lldb#util#get_selection()<CR><CR>
+
+" Switch lldb.nvim modes
+nnoremap <leader>ll :LLmode debug<CR>
+nnoremap <leader>lL :LLmode code<CR>
+
+" Continue/interrupt execution
+nnoremap <leader>lc :LL continue<CR>
+nnoremap <leader>lx :LL process interrupt<CR>
+
+" Step into/over
+nnoremap <leader>ls :LL step<CR>
+nnoremap <leader>lS :LL next<CR>
