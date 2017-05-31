@@ -1,6 +1,6 @@
 # Autorun tmux, except on login shells
 if [[ $TERM != "screen-256color" && ! -o login ]]; then
-    export TERM=xterm-256color && exec tmux
+    export TERM=xterm-256color && exec tmux -L "$DISPLAY" attach
 fi
 
 # Lines configured by zsh-newuser-install
@@ -12,6 +12,7 @@ bindkey -e
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/matt/.zshrc'
 
+fpath+=~"/.zfunc"
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
@@ -20,8 +21,8 @@ source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # Environment Vars
 path+=~"/bin/"
-path+="$(ruby -e 'print Gem.user_dir')/bin"
 path+=~"/.cargo/bin/"
+path+=~"/code/flora/Flora-2/flora2"
 export EDITOR='/usr/bin/nvim'
 export vgaswitch=/sys/kernel/debug/vgaswitcheroo/switch
 export MIPSGCC_DIR=~/code/mips-gcc/
@@ -37,6 +38,10 @@ export MAKEFLAGS="-j4"
 export TMP=/tmp
 export TMPDIR=/tmp
 
+# Fix graphical issues with Matlab
+export J2D_D3D=false
+export MATLAB_JAVA=/usr/lib/jvm/java-8-openjdk/jre
+
 # Zsh functions
 source ~/.zshfn
 
@@ -48,3 +53,7 @@ alias pacaur="sudo -u pacaur MAKEFLAGS=\"$MAKEFLAGS\" pacaur"
 
 # Less useful aliases
 vim() { echo 'Use neovim dummy'; read }
+
+#path+="$(ruby -e 'print Gem.user_dir')/bin"
+path+="$HOME/.rvm/bin" # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

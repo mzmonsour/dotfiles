@@ -24,8 +24,11 @@ set softtabstop=4
 set tabstop=4
 set shiftwidth=4
 
-" Show tab lines
-set list lcs=tab:\|\ 
+" Show tab lines, and partially off-screen lines
+set list lcs=tab:\|\ ,precedes:!,extends:!
+
+" Disable long line wrapping
+"set nowrap sidescroll=8
 
 " Enable indent backspacing
 set backspace=indent,eol,start
@@ -56,7 +59,8 @@ set wildignore+=*/target/**
 command Rmfeed :%s///g
 
 " Quick mapping to save files opened without sudo
-cmap w!! w !sudo tee > /dev/null %
+"cmap w!! w !sudo tee > /dev/null %
+cmap w!! SudoWrite
 
 " Bind common tab styles
 " Use setlocal twice so we can see the settings in the command line
@@ -69,7 +73,7 @@ nmap <leader>M :setlocal ts=8 sts=8 sw=8 noet<CR>:IndentLinesReset<CR>:setlocal 
 nmap <leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
 " Bind search reset
-nnoremap <leader>/ :let @/=""<CR>
+nnoremap <leader>/ :nohlsearch<CR>
 
 " Bind blank line insertions
 nmap <leader>o o<Esc>k
@@ -105,6 +109,7 @@ Plugin 'racer-rust/vim-racer'
 Plugin 'tpope/vim-eunuch'
 Plugin 'neomake/neomake'
 Plugin 'critiqjo/lldb.nvim'
+Plugin 'kchmck/vim-coffee-script'
 
 " Colorscheme plugins
 Plugin 'sickill/vim-sunburst'
@@ -185,6 +190,12 @@ augroup fix_texsuite
     au VimEnter * call RebindNavigator()
 augroup END
 
+" Stop vimtex from hiding characters
+augroup fix_vimtex
+    au!
+    au FileType tex setlocal conceallevel=0
+augroup END
+
 " Pick a sane default for code width, this isn't the 80s
 let &colorcolumn="101,".join(range(121,999), ",")
 "hi ColorColumn ctermbg=Red
@@ -247,23 +258,30 @@ let g:EclimCompletionMethod = 'omnifunc'
 " Give YCM access to tags
 let g:ycm_collect_identifiers_from_tags_files = 1
 
+" Show rust source for ycm
+let g:ycm_rust_src_path = "/usr/src/rust/src"
+
 " Set bindings for lldb.nvim
 
 " Toggle breakpoint
-nmap <leader>lb <Plug>LLBreakSwitch
+"nmap <leader>lb <Plug>LLBreakSwitch
+"
+"" Print hovering word, or selection
+"nnoremap <leader>lp :LL print <C-R>=expand('<cword>')<CR><CR>
+"vnoremap <leader>lp :LL print <C-R>=lldb#util#get_selection()<CR><CR>
+"
+"" Switch lldb.nvim modes
+"nnoremap <leader>ll :LLmode debug<CR>
+"nnoremap <leader>lL :LLmode code<CR>
+"
+"" Continue/interrupt execution
+"nnoremap <leader>lc :LL continue<CR>
+"nnoremap <leader>lx :LL process interrupt<CR>
+"
+"" Step into/over
+"nnoremap <leader>ls :LL step<CR>
+"nnoremap <leader>lS :LL next<CR>
 
-" Print hovering word, or selection
-nnoremap <leader>lp :LL print <C-R>=expand('<cword>')<CR><CR>
-vnoremap <leader>lp :LL print <C-R>=lldb#util#get_selection()<CR><CR>
-
-" Switch lldb.nvim modes
-nnoremap <leader>ll :LLmode debug<CR>
-nnoremap <leader>lL :LLmode code<CR>
-
-" Continue/interrupt execution
-nnoremap <leader>lc :LL continue<CR>
-nnoremap <leader>lx :LL process interrupt<CR>
-
-" Step into/over
-nnoremap <leader>ls :LL step<CR>
-nnoremap <leader>lS :LL next<CR>
+" Make sure conceal level is set right
+set conceallevel=0
+let g:tex_conceal=0
