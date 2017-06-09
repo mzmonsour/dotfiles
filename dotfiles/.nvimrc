@@ -54,6 +54,8 @@ set hidden
 set wildignore+=*.class
 set wildignore+=*/build/**
 set wildignore+=*/target/**
+set wildignore+=*.o
+set wildignore+=*.ko
 
 " Remove Windows Line Feeds
 command Rmfeed :%s///g
