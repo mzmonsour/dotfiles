@@ -56,6 +56,7 @@ set wildignore+=*/build/**
 set wildignore+=*/target/**
 set wildignore+=*.o
 set wildignore+=*.ko
+set wildignore+=*/CMakeFiles/**
 
 " Remove Windows Line Feeds
 command Rmfeed :%s///g
@@ -80,6 +81,9 @@ nnoremap <leader>/ :nohlsearch<CR>
 " Bind blank line insertions
 nmap <leader>o o<Esc>k
 nmap <leader>O O<Esc>j
+
+" Fix weird switch case indentation
+set cinoptions=l1
 
 " Enable vundle
 filetype off
@@ -112,6 +116,7 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'neomake/neomake'
 Plugin 'critiqjo/lldb.nvim'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'quabug/vim-gdscript'
 
 " Colorscheme plugins
 Plugin 'sickill/vim-sunburst'
