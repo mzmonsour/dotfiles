@@ -147,6 +147,12 @@ augroup END
 "    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
 "augroup END
 
+" Use python plugins for distalgo
+augroup distalgo
+    au!
+    au BufNewFile,BufRead *.da setlocal filetype=python
+augroup END
+
 " Assume MIPS assembly because I don't write x86 or any other instruction set
 augroup mips
     au!
@@ -157,7 +163,8 @@ augroup END
 " Color columns past 80 so code doesn't wrap as much
 augroup kernel_c
     au!
-    au FileType c setlocal ts=8 sts=8 sw=8 noet
+    "au FileType c setlocal ts=8 sts=8 sw=8 noet
+    au FileType c setlocal ts=4 sts=4 sw=4 et
     au FileType c let &l:cc="".join(range(81,999), ",")
 augroup END
 
