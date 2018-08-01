@@ -51,9 +51,6 @@ alias e="$EDITOR"
 alias please="sudo `cat \`readlink -f $HISTFILE\` | tail -n1`"
 alias pacaur="sudo -u pacaur MAKEFLAGS=\"$MAKEFLAGS\" pacaur"
 
-# Less useful aliases
-vim() { echo 'Use neovim dummy'; read }
-
 #path+="$(ruby -e 'print Gem.user_dir')/bin"
 path+="$HOME/.rvm/bin" # Add RVM to PATH for scripting
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
