@@ -63,7 +63,7 @@ command Rmfeed :%s///g
 
 " Quick mapping to save files opened without sudo
 "cmap w!! w !sudo tee > /dev/null %
-cmap w!! SudoWrite
+cmap w!! w suda://%
 
 " Bind common tab styles
 " Use setlocal twice so we can see the settings in the command line
@@ -117,6 +117,7 @@ Plugin 'neomake/neomake'
 Plugin 'critiqjo/lldb.nvim'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'quabug/vim-gdscript'
+Plugin 'lambdalisue/suda.vim'
 
 " Colorscheme plugins
 Plugin 'sickill/vim-sunburst'
