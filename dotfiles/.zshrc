@@ -1,3 +1,7 @@
+# Load grml config
+
+source ~/.zsh-grml
+
 # Autorun tmux, except on login shells
 if [[ $TERM != "screen-256color" && ! -o login ]]; then
     export TERM=xterm-256color && exec tmux -L "$DISPLAY" attach
@@ -17,7 +21,7 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-source /usr/share/doc/pkgfile/command-not-found.zsh
+#source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # Environment Vars
 path+=~"/bin/"
@@ -53,4 +57,6 @@ alias pacaur="sudo -u pacaur MAKEFLAGS=\"$MAKEFLAGS\" pacaur"
 
 #path+="$(ruby -e 'print Gem.user_dir')/bin"
 path+="$HOME/.rvm/bin" # Add RVM to PATH for scripting
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
