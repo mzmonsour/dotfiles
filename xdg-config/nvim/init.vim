@@ -85,44 +85,42 @@ nmap <leader>O O<Esc>j
 " Fix weird switch case indentation
 set cinoptions=l1
 
-" Enable vundle
+" Enable vim-plug
 filetype off
-set rtp+=~/.config/nvim/bundle/Vundle.vim
-call vundle#begin('~/.config/nvim/bundle')
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.config/nvim/plugged')
 
 " Load plugins here
 
-Plugin 'kien/ctrlp.vim'
-Plugin 'bkad/CamelCaseMotion'
-Plugin 'rking/ag.vim'
-Plugin 'Yggdroot/indentLine'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-rails'
-Plugin 'jtratner/vim-flavored-markdown'
-Plugin 'suan/vim-instant-markdown'
-Plugin 'mattn/webapi-vim'
-Plugin 'mattn/gist-vim'
-Plugin 'bling/vim-airline'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'rust-lang/rust.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'lervag/vimtex'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'rdnetto/YCM-Generator'
-Plugin 'racer-rust/vim-racer'
-Plugin 'tpope/vim-eunuch'
-Plugin 'neomake/neomake'
-Plugin 'critiqjo/lldb.nvim'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'quabug/vim-gdscript'
-Plugin 'lambdalisue/suda.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'kien/ctrlp.vim'
+Plug 'bkad/CamelCaseMotion'
+Plug 'rking/ag.vim'
+Plug 'Yggdroot/indentLine'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rails'
+Plug 'jtratner/vim-flavored-markdown'
+Plug 'suan/vim-instant-markdown'
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'
+Plug 'bling/vim-airline'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-surround'
+Plug 'lervag/vimtex'
+Plug 'racer-rust/vim-racer'
+Plug 'tpope/vim-eunuch'
+Plug 'neomake/neomake'
+Plug 'critiqjo/lldb.nvim'
+Plug 'kchmck/vim-coffee-script'
+Plug 'calviken/vim-gdscript3'
+Plug 'lambdalisue/suda.vim'
 
 " Colorscheme plugins
-Plugin 'sickill/vim-sunburst'
+Plug 'sickill/vim-sunburst'
+Plug 'Lokaltog/vim-distinguished'
 
-call vundle#end()
+call plug#end()
 
 " Enable syntax highlighting, and other filetype plugins
 filetype plugin indent on
@@ -267,14 +265,21 @@ if has('nvim')
 endif
 
 " Set eclim settings
-set rtp+=~/.config/nvim/eclim/
-let g:EclimCompletionMethod = 'omnifunc'
+"set rtp+=~/.config/nvim/eclim/
+"let g:EclimCompletionMethod = 'omnifunc'
 
-" Give YCM access to tags
-let g:ycm_collect_identifiers_from_tags_files = 1
 
-" Show rust source for ycm
-let g:ycm_rust_src_path = "/usr/src/rust/src"
+" Configure coc.nvim shortcuts
+" Navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+" coc.nvim symbol refactoring
+nmap <leader>ce <Plug>(coc-rename)
+
 
 " Set bindings for lldb.nvim
 
